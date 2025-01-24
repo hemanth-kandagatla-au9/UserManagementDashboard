@@ -10,6 +10,12 @@ const UserList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const location = useNavigate();
+  const [notify, setNotify] = React.useState({
+      isOpen:false,
+      message: "",
+      type: "",
+      timing: ""
+  })
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -41,17 +47,23 @@ const UserList = () => {
   // }
 
   const goToCreateUser = () => {
-    location('/createUser');
+    location('/add-user');
   }
   const backToDashboard = () => {
     location('/dashboard');
   }
 
   const editUser = (proj_id) => {
-    location('/createuser')
+    location('/edit-user')
   }
   const deleteUser = (proj_id) => {
-    location('/createuser')
+    //delete api cal
+    setNotify({
+      isOpen:true,
+      message: "User Deleted Successfully",
+      type: "danger",
+      timing: 8000
+    })
   }
 
   return (

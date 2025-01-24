@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 
-const CreateUser = () => {
+const EditUser = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -94,7 +94,7 @@ const CreateUser = () => {
         {error && <p style={styles.error}>{error}</p>}
         {success && <p style={styles.success}>{success}</p>}
         <button type="submit" style={styles.button}>
-          Create User
+          Edit User
         </button>
       </form>
     </div>
@@ -136,4 +136,4 @@ const styles = {
     },
   };
 
-export default CreateUser;
+export default EditUser;
