@@ -4,7 +4,7 @@ import { getUserData } from "../api/users"; // Example function to fetch user da
 import CustomizedSnackbars from '../components/CustomizedSnackbars';
 
 const UserList = () => {
-  const [user, setUser] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const location = useNavigate();
@@ -15,7 +15,7 @@ const UserList = () => {
       try {
 
         const data = await getUserData();
-        setUser(data);
+        setUsers(data);
       } catch (err) {
         setError("Failed to fetch user data");
       } finally {
@@ -35,8 +35,12 @@ const UserList = () => {
   }
 
   const editUser = (user_id) => {
+    let user = users.filter((item) => item.id === user_id);
+    // console.log(user,"useruserkkk")
+    localStorage.setItem('UserInfo', JSON.stringify(user));
     location('/edit-user')
   }
+
   const deleteUser = (user_id) => {
     //delete api cal
     setOpen(true)
@@ -68,12 +72,13 @@ const UserList = () => {
           <th>  </th>
         </tr>
         {
-          user?.map(each =>
+          users?.map(each =>
             <tr className="table-row">
               <td>{each.id}</td>
               <td>{each.name}</td>
               <td>{each.username}</td>
               <td>{each.email}</td>
+              
               <td>
                 <button  className = "edit-user" onClick={() => editUser(each.id)}> Edit User</button>
               </td>

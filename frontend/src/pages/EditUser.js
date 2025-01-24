@@ -1,16 +1,33 @@
-// File: frontend/src/pages/Login.js
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import CustomizedSnackbars from "../components/CustomizedSnackbars";
 
 const EditUser = () => {
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    creation_date: null,
-    project_owner: ''
+    id: "",
+    name: "",
+    username: "",
+    email: "",
   });
+
+  useEffect(() => {
+    let userData = JSON.parse(localStorage.getItem('UserInfo'));
+    if (userData) {
+      setFormData({
+        id: userData[0].id,
+        name: userData[0].name,
+        username: userData[0].username,
+        email: userData[0].email,
+      })
+    }
+
+    //clean up function
+    return () => {
+      localStorage.removeItem('UserInfo')
+    }
+  }, [])
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -31,33 +48,28 @@ const EditUser = () => {
     setSuccess("");
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        {
-          title: formData.title,
-          description: formData.description,
-          creation_date: formData.creation_date,
-          project_owner: formData.CreateProj
-        }
-      );
+      let userData = {
+        title: formData.id,
+        description: formData.name,
+        creation_date: formData.username,
+        project_owner: formData.email
+      }
 
-      // Store the token in localStorage
-      localStorage.setItem("token", response.data.token);
+      const response = await axios.put(`https://jsonplaceholder.typicode.com/users/${formData.id}`, userData);
+      // setSuccess(`User updated successfully: ${JSON.stringify(response.data)}`);
 
-      setSuccess("Project creation successful! Redirecting to Project List ...");
-      setTimeout(() => navigate("/projectlist"), 2000);
+      setSuccess("User Edited successfully! Redirecting to Users List ...");
+      setTimeout(() => navigate("/users-list"), 2000);
     } catch (err) {
-      setError(
-        err.response?.data?.message || "Login failed. Please try again."
-      );
+      setError(err.response?.data?.message || "Failed to update user. Please try again.");
     }
   };
-
+ 
   return (
     <div>
-      <h2>User Details</h2>
+      <h2>User Details </h2>
       <form onSubmit={handleSubmit}>
-        
+
         <div>
           <label htmlFor="name">Name</label>
           <input
@@ -70,7 +82,7 @@ const EditUser = () => {
           />
         </div>
         <div>
-          <label htmlFor="username">user name</label>
+          <label htmlFor="username">User name</label>
           <input
             type="text"
             name="username"
@@ -81,7 +93,7 @@ const EditUser = () => {
           />
         </div>
         <div>
-          <label htmlFor="email">email</label>
+          <label htmlFor="email">Email</label>
           <input
             type="text"
             name="email"
@@ -102,38 +114,38 @@ const EditUser = () => {
 };
 
 const styles = {
-    container: {
-      width: "100%",
-      maxWidth: "400px",
-      margin: "0 auto",
-      padding: "2px",
-      textAlign: "center",
-    },
-    form: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "10px",
-    },
-    inputGroup: {
-      display: "flex",
-      flexDirection: "column",
-      textAlign: "left",
-    },
-    button: {
-      padding: "10px",
-      fontSize: "16px",
-      backgroundColor: "#007BFF",
-      color: "#fff",
-      border: "none",
-      borderRadius: "5px",
-      cursor: "pointer",
-    },
-    error: {
-      color: "red",
-    },
-    success: {
-      color: "green",
-    },
-  };
+  container: {
+    width: "100%",
+    maxWidth: "400px",
+    margin: "0 auto",
+    padding: "2px",
+    textAlign: "center",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+  },
+  inputGroup: {
+    display: "flex",
+    flexDirection: "column",
+    textAlign: "left",
+  },
+  button: {
+    padding: "10px",
+    fontSize: "16px",
+    backgroundColor: "#007BFF",
+    color: "#fff",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+  },
+  error: {
+    color: "red",
+  },
+  success: {
+    color: "green",
+  },
+};
 
 export default EditUser;
