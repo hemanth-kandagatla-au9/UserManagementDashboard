@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getUserData } from "../api/users"; // Example function to fetch user data
-// import TaskList from "./TaskList"; // A component to display tasks
-// import ProjectList from ".."; // A component to display projects
-// import constants from "./constants";
+import CustomizedSnackbars from '../components/CustomizedSnackbars';
 
 const UserList = () => {
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const location = useNavigate();
-  const [notify, setNotify] = React.useState({
-      isOpen:false,
-      message: "",
-      type: "",
-      timing: ""
-  })
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -33,18 +26,6 @@ const UserList = () => {
     fetchUserData();
   }, []);
 
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (error) {
-  //   return <div>{error}</div>;
-  // }
-
-  // if (!user) {
-  //   // Link to login if user is not authenticated
-  //   return <Link to="/login" />;
-  // }
 
   const goToCreateUser = () => {
     location('/add-user');
@@ -53,17 +34,16 @@ const UserList = () => {
     location('/dashboard');
   }
 
-  const editUser = (proj_id) => {
+  const editUser = (user_id) => {
     location('/edit-user')
   }
-  const deleteUser = (proj_id) => {
+  const deleteUser = (user_id) => {
     //delete api cal
-    setNotify({
-      isOpen:true,
-      message: "User Deleted Successfully",
-      type: "danger",
-      timing: 8000
-    })
+    setOpen(true)
+  }
+
+  const setOpenfn = (val) => {
+    setOpen(val)
   }
 
   return (
@@ -102,7 +82,7 @@ const UserList = () => {
               </td>
             </tr>)}
       </table>
-
+      <CustomizedSnackbars open={open} deleted_id = {1} setOpenfn={setOpenfn}/>
     </div>
   );
 };

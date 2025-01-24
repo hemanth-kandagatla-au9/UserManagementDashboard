@@ -5,7 +5,7 @@ const Dashboard = () => {
   const location = useNavigate();
   
   const goToUserList = () => {
-    location('/userslist')
+    location('/users-list')
   }
 
   return (

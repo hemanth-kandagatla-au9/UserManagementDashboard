@@ -12,8 +12,9 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Routes> 
-          <Route path="/userslist" element={<UserList />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/users-list" element={<UserList />} />
           <Route path="/add-user" element={<AddUser />} />
           <Route path="/edit-user" element={<EditUser />} />
         </Routes>
