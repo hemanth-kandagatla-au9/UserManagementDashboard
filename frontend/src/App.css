@@ -6,6 +6,12 @@
   height: 40vmin;
   pointer-events: none;
 }
+.add-user { 
+  margin-top:50px;
+  display:flex;
+  flex-direction : row;
+  justify-content :flex-end;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -36,3 +42,30 @@
     transform: rotate(360deg);
   }
 }
+
+.user-list{
+  padding:1px;
+  margin:0px
+}
+
+.table-row{
+  text-align: left;
+}
+.table-head{
+  text-align: left;
+}
+
+button {
+  border-radius: 4px;
+  color: rgb(25, 173, 129);
+  background-color: brown;
+ }
+
+ .edit-user{
+  background-color: rgb(204, 218, 8);
+
+ }
+ button.add-user{
+
+ background-color: rgb(10, 165, 49);
+ }

@@ -22,7 +22,7 @@ const UserList = () => {
       } finally {
         setLoading(false);
       }
-    }; 
+    };
 
     fetchUserData();
   }, []);
@@ -46,38 +46,51 @@ const UserList = () => {
   const backToDashboard = () => {
     location('/dashboard');
   }
- 
-  const createuser = (proj_id) => {
+
+  const editUser = (proj_id) => {
+    location('/createuser')
+  }
+  const deleteUser = (proj_id) => {
     location('/createuser')
   }
 
   return (
-<div className="dashboard">
-      {/* <h1>Welcome to Your Dashboard, {user.name}!</h1> */}
-      <div className="dashboard-content">
-<div className="projects">
-           
-          <button onClick={goToCreateUser}> Create User </button>
-          <button  > Add User </button>
-          
-          {
-            user?.map(each => 
-              <div>
-                <p> ID: {each.id} </p>
-                <p> name: {each.name} </p>
-                <p> username: {each.username} </p>
-                <p> email: {each.email} </p>
-                
-                <button onClick={() => createuser(each.id)}> Edit User</button>
-                <button onClick={() => createuser(each.id)}> Delete User</button>
-                <p><hr/></p>
-              </div>
-            )
-          }
+    <div >
+      <div className="add-user" >
+        <button onClick={goToCreateUser}>
+          Add User
+        </button>
+      <button onClick={backToDashboard}> Back to dashboard </button>
 
-          <button onClick={backToDashboard}> Back to dashboard </button>
-        </div>
       </div>
+
+      <h2>Users Data</h2>
+
+      <table className="table-head">
+        <tr>
+          <th> Id </th>
+          <th> Name </th>
+          <th> User Name </th>
+          <th> Email </th>
+          <th>  </th>
+          <th>  </th>
+        </tr>
+        {
+          user?.map(each =>
+            <tr className="table-row">
+              <td>{each.id}</td>
+              <td>{each.name}</td>
+              <td>{each.username}</td>
+              <td>{each.email}</td>
+              <td>
+                <button  className = "edit-user" onClick={() => editUser(each.id)}> Edit User</button>
+              </td>
+              <td>
+                <button onClick={() => deleteUser(each.id)}> Delete User</button>
+              </td>
+            </tr>)}
+      </table>
+
     </div>
   );
 };
